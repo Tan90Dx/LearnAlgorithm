@@ -2,11 +2,16 @@
 #include <vector>
 #include <queue>
 using namespace std;
+int n,last;
+const short move_x[]={1,0};
+const short move_y[]={0,1};
+
+void dfs(vector<vector<int>>&, int , int , int);
+
 int main(){
-    int n;
     cin>>n;
     vector<vector<int>> map(n,vector<int>(n,0));
-    vector<vector<bool>> flag(n,vector<bool>(n,false));
+    vector<vector<int>> flag(n,vector<int>(n,0));
     int a,b,c;
     while(true){
         cin>>a>>b>>c;
@@ -16,29 +21,26 @@ int main(){
         a--;b--;
         map[a][b]=c;
     }
+    dfs(map,0,0,0);
+    cout<<last;
     return 0;
 }
-void bfs(const vector<vector<int>>& map, vector<vector<int>>& flag,const int& n){
-    queue<pair<int,int>> que;
-    int last=0;
-    int move_x[]={0,1};
-    int move_y[]={1,0};
-    que.push(make_pair(0,0));
-    while(!que.empty()){
-        int x=que.front().first;
-        int y=que.front().second;
-        que.pop();
-        flag[x][y]=true;
-        for(int i=0;i<2;i++){
-            int x_new=x+move_x[i];
-            int y_new=x+move_y[i];
-            int temp=last;
-            if(x_new<n and y_new<n and flag[x_new][y_new]==false){
-                if(last)
-            }
-        }
-        if(x==n-1 and y==n-1){
-            break;
+
+
+void dfs( vector<vector<int>>& map,int x,int y,int total){
+    if(x>=n or y>=n){
+        return;
+    }
+    if(x==n-1 and y==n-1){
+        if(total>last){
+            last=total;
         }
     }
+    for(int i=0;i<2;i++){
+        int temp=map[x][y];
+        dfs(map,x+move_x[i],y+move_y[i],total+temp);
+        map[x][y]=0;
+//        map[x][y]=temp;
+    }
+
 }
