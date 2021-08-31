@@ -1,20 +1,24 @@
+//LINK:https://www.luogu.com.cn/problem/P1996#submit
+// Created by tan90 on 2021/8/30.
+//约瑟夫问题，队列实现
 #include <iostream>
 using namespace std;
 template<typename T>
-struct Queue{
+struct CirculateQueue{
     T arr[101];
+    const int MAX_N=100;
     int begin=0;
     int end=-1;
     void push(const T& t){
-        arr[(++end)]=t;
+        arr[(++end)%MAX_N]=t;
     }
     T pop(){
-        T t=arr[begin];
+        T t=arr[begin%MAX_N];
         begin++;
         return t;
     }
     T getTop(){
-        return arr[begin];
+        return arr[begin%MAX_N];
     }
     bool isEmpty(){
         return (end-begin+1)==0;
@@ -22,7 +26,7 @@ struct Queue{
 };
 int main(){
     int n,k;
-    Queue<int>queue;
+    CirculateQueue<int>queue;
     cin>>n>>k;
     for(int i=1;i<=n;i++)
     {
